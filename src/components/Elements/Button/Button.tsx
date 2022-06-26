@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes } from 'react';
+import { Spinner } from '../Spinner';
 
 const variants = {
   primary: 'bg-gray-50 text-gray-900 hover:bg-gray-100',
@@ -36,8 +37,10 @@ export const Button = ({
         sizes[size],
         className,
       )}
+      disabled={isLoading}
     >
-      {props.children}
+      {isLoading && <Spinner />}
+      <span className='ml-2'>{isLoading ? 'Loading' : props.children}</span>
     </button>
   );
 };
