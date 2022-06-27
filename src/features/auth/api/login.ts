@@ -11,10 +11,7 @@ export type LoginCredentials = {
 export const useLoginWithEmailAndPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const loginWithEmailAndPassword = async ({
-    email,
-    password,
-  }: LoginCredentials) => {
+  const login = async ({ email, password }: LoginCredentials) => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
@@ -26,7 +23,7 @@ export const useLoginWithEmailAndPassword = () => {
   };
 
   return {
-    loginWithEmailAndPassword,
+    login,
     isLoading,
   };
 };
