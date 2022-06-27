@@ -4,7 +4,7 @@ import { Link as RouteLink, LinkProps } from 'react-router-dom';
 export const Link = ({ className = '', children, ...props }: LinkProps) => {
   return (
     <RouteLink
-      className={clsx('text-red hover:text-inherit', className)}
+      className={clsx('text-red hover:text-lightGray', className)}
       {...props}
     >
       {children}

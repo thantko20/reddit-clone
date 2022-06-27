@@ -3,9 +3,9 @@ import { ButtonHTMLAttributes } from 'react';
 import { Spinner } from '../Spinner';
 
 const variants = {
-  primary: 'bg-red-500 text-red-50 hover:bg-red-400',
+  primary: 'bg-lightGray text-body hover:bg-[#c4c9cb]',
   secondary:
-    'bg-transparent text-red-50 border border-red-50 hover:bg-red-500 hover:text-red-50',
+    'bg-transparent text-lightGray border border-lightGray hover:bg-lightGray/20',
 };
 
 const sizes = {
@@ -32,7 +32,7 @@ export const Button = ({
     <button
       type={type}
       className={clsx(
-        'flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed rounded-full tracking-wide font-semibold transition-colors focus:outline focus:outline-2 focus:outline-gray-50 focus:outline-offset-2',
+        'flex justify-center items-center gap-4 disabled:opacity-50 disabled:cursor-not-allowed rounded-full tracking-wide font-semibold transition-colors focus:outline focus:outline-2 focus:outline-gray-50 focus:outline-offset-2',
         variants[variant],
         sizes[size],
         className,
@@ -40,7 +40,7 @@ export const Button = ({
       disabled={isLoading}
     >
       {isLoading && <Spinner size='sm' />}
-      <span className='ml-2'>{isLoading ? 'Loading' : props.children}</span>
+      <span>{isLoading ? 'Loading' : props.children}</span>
     </button>
   );
 };
