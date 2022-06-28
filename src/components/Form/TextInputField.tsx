@@ -6,6 +6,7 @@ export type InputFieldProps = {
   id?: string;
   name: string;
   label: string;
+  placeholder?: string;
   className?: string;
 };
 
@@ -19,10 +20,22 @@ export const InputField = ({
 
   return (
     <div>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <input className={clsx('mt-2', className)} {...field} {...props} />
+      <label
+        htmlFor={props.id || props.name}
+        className='font-semibold text-lightGray'
+      >
+        {label}
+      </label>
+      <input
+        className={clsx(
+          'mt-2 px-2 py-1 outline-none bg-gray-800 text-gray-300 border border-gray-600 transition-colors focus:border-green-300 invalid:border-red-300',
+          className,
+        )}
+        {...field}
+        {...props}
+      />
       {meta.touched && meta.error ? (
-        <div className='mt-1 text-rose-300'>{meta.error}</div>
+        <div className='mt-1 text-red-300'>{meta.error}</div>
       ) : null}
     </div>
   );
