@@ -28,14 +28,14 @@ export const InputField = ({
       </label>
       <input
         className={clsx(
-          'mt-2 px-2 py-1 outline-none bg-gray-800 text-gray-300 border border-gray-600 transition-colors focus:border-green-300 invalid:border-red-300',
+          'mt-2 px-2 py-1 outline-none bg-gray-800 text-mediumGray border border-gray-600 transition-colors focus:border-green-300 invalid:border-red-400',
           className,
         )}
         {...field}
         {...props}
       />
       {meta.touched && meta.error ? (
-        <div className='mt-1 text-red-300'>{meta.error}</div>
+        <div className='mt-1 text-red-400'>{meta.error}</div>
       ) : null}
     </div>
   );
