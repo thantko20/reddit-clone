@@ -1,16 +1,18 @@
 import clsx from 'clsx';
-import { LabelHTMLAttributes } from 'react';
+import { ReactNode } from 'react';
 
-export type FieldWrapperProps = LabelHTMLAttributes<HTMLLabelElement> & {
-  label?: string;
-};
+export interface FieldWrapperProps {
+  label: string;
+  className?: string;
+  htmlFor?: string;
+  children?: ReactNode;
+}
 
 export const FieldWrapper = ({
+  label,
+  className,
   htmlFor,
-  label = '',
-  className = '',
   children,
-  ...props
 }: FieldWrapperProps) => {
   return (
     <label
