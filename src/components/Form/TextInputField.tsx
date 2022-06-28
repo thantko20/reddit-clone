@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useField } from 'formik';
 
-export type InputFieldProps = {
+export type TextInputFieldProps = {
   type?: 'email' | 'text' | 'password';
   id?: string;
   name: string;
@@ -10,32 +10,35 @@ export type InputFieldProps = {
   className?: string;
 };
 
-export const InputField = ({
+export const TextInputField = ({
   type = 'text',
   label,
   className = '',
   ...props
-}: InputFieldProps) => {
-  const [field, meta] = useField(props.name);
+}: TextInputFieldProps) => {
+  const [field, meta] = useField(props);
 
   return (
     <div>
       <label
         htmlFor={props.id || props.name}
-        className='font-semibold text-lightGray'
+        className='font-semibold text-lightGray block'
       >
         {label}
       </label>
       <input
         className={clsx(
-          'mt-2 px-2 py-1 outline-none bg-gray-800 text-mediumGray border border-gray-600 transition-colors focus:border-green-300 invalid:border-red-400',
+          'mt-2 px-3 py-2 outline-none rounded bg-gray-800 text-mediumGray border border-gray-600 transition-colors focus:border-green-300 invalid:border-red-400',
           className,
         )}
+        type={type}
         {...field}
         {...props}
       />
       {meta.touched && meta.error ? (
-        <div className='mt-1 text-red-400'>{meta.error}</div>
+        <div className='mt-1 text-red-400 text-sm max-w-full' role='alert'>
+          {meta.error}
+        </div>
       ) : null}
     </div>
   );
