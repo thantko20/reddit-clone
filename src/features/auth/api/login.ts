@@ -16,7 +16,7 @@ export const useLoginWithEmailAndPassword = () => {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
       setIsLoading(false);
-    } catch {
+    } catch (err) {
       toast.error('There was a problem logging in');
       setIsLoading(false);
     }
