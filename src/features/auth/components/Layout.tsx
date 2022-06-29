@@ -1,3 +1,4 @@
+import { Link } from 'components';
 import { Logo } from 'components/Logo';
 import { ReactNode } from 'react';
 
@@ -9,15 +10,17 @@ export const Layout = ({
   title: string;
 }) => {
   return (
-    <div className='h-screen bg-canvas flex flex-col justify-center'>
+    <div className='h-screen bg-canvas flex flex-col items-center'>
+      <Link to='/'>
+        <Logo />
+      </Link>
       <div className='max-w-2xl'>
         <div className='flex flex-col items-center'>
-          <Logo />
-          <div>
+          <div className='mt-20'>
             <h2 className='text-2xl sm:text-3xl font-bold text-lightGray'>
               {title}
             </h2>
-            <div className='mt-4'>{children}</div>
+            <div className='mt-10 max-w-xl'>{children}</div>
           </div>
         </div>
       </div>
