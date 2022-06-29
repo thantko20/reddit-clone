@@ -32,7 +32,7 @@ export const Button = ({
     <button
       type={type}
       className={clsx(
-        'flex justify-center items-center gap-4 disabled:opacity-50 disabled:cursor-not-allowed rounded-full tracking-wide font-semibold transition-colors focus:outline focus:outline-2 focus:outline-gray-50 focus:outline-offset-2',
+        'flex justify-center items-center gap-4 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-full tracking-wide font-semibold transition-colors focus:outline focus:outline-2 focus:outline-gray-50 focus:outline-offset-2',
         variants[variant],
         sizes[size],
         className,
