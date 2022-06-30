@@ -38,6 +38,7 @@ export const Button = ({
         className,
       )}
       disabled={isLoading}
+      {...props}
     >
       {isLoading && <Spinner size='sm' />}
       <span>{isLoading ? 'Loading' : props.children}</span>
