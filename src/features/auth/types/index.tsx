@@ -1,4 +1,4 @@
-export interface UserType {
+export type UserType = {
   name: string;
   username: string;
   email: string;
@@ -7,4 +7,4 @@ export interface UserType {
   createdAt: string | number;
   joinedSubreddits: string[];
   threads: string[];
-}
+} | null;
