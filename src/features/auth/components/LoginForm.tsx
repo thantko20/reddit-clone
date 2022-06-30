@@ -17,7 +17,11 @@ const validationSchema = yup.object({
     .required('This field is required'),
 });
 
-export const LoginForm = () => {
+interface LoginFormProps {
+  onSuccess: () => void;
+}
+
+export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const loginWithEmailAndPassword = useLoginWithEmailAndPassword();
 
   return (
@@ -30,6 +34,7 @@ export const LoginForm = () => {
         onSubmit={async (value, { resetForm }) => {
           await loginWithEmailAndPassword.login(value);
           resetForm();
+          onSuccess();
         }}
         validationSchema={validationSchema}
       >

@@ -20,7 +20,11 @@ const validationSchema = yup.object().shape({
     .required(),
 });
 
-export const RegisterForm = () => {
+interface RegisterFormProps {
+  onSuccess: () => void;
+}
+
+export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const registerWithEmailAndPassword = useRegisterWithEmailAndPassword();
 
   return (
@@ -35,8 +39,9 @@ export const RegisterForm = () => {
         }}
         onSubmit={async (values, { resetForm }) => {
           console.log(values.avatar);
-          registerWithEmailAndPassword.register(values);
+          await registerWithEmailAndPassword.register(values);
           resetForm();
+          onSuccess();
         }}
         validationSchema={validationSchema}
       >
