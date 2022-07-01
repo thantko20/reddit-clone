@@ -1,8 +1,6 @@
-import clsx from 'clsx';
-
-export const Logo = ({ className = '' }: { className?: string }) => {
+export const Logo = () => {
   return (
-    <div className={clsx('flex items-center gap-4', className)}>
+    <div className='flex items-center gap-4'>
       <svg
         className='h-10 w-10'
         xmlns='http://www.w3.org/2000/svg'
@@ -17,7 +15,7 @@ export const Logo = ({ className = '' }: { className?: string }) => {
         </g>
       </svg>
       <svg
-        className='h-20 w-20'
+        className='h-16 w-16'
         viewBox='0 0 57 18'
         xmlns='http://www.w3.org/2000/svg'
       >
