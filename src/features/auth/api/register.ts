@@ -74,9 +74,8 @@ export const useRegisterWithEmailAndPassword = () => {
 
       setIsLoading(false);
     } catch (err) {
-      toast.error('There was an error during registration');
-      console.log(err);
       setIsLoading(false);
+      throw new Error();
     }
   };
 

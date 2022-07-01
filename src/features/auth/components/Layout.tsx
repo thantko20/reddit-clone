@@ -10,7 +10,7 @@ export const Layout = ({
   title: string;
 }) => {
   return (
-    <div className='h-screen bg-canvas flex flex-col items-center'>
+    <div className='min-h-screen bg-canvas flex flex-col items-center p-4'>
       <Link to='/'>
         <Logo />
       </Link>
@@ -20,7 +20,7 @@ export const Layout = ({
             <h2 className='text-2xl sm:text-3xl font-bold text-lightGray'>
               {title}
             </h2>
-            <div className='mt-10 max-w-xl'>{children}</div>
+            <div className='mt-10 w-full'>{children}</div>
           </div>
         </div>
       </div>

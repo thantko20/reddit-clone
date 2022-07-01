@@ -2,6 +2,7 @@ import { Button, Form, Link, TextInputField } from 'components';
 import { useRegisterWithEmailAndPassword } from '../api';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import toast from 'react-hot-toast';
 
 // const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -28,7 +29,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const registerWithEmailAndPassword = useRegisterWithEmailAndPassword();
 
   return (
-    <div>
+    <>
       <Formik
         initialValues={{
           email: '',
@@ -38,10 +39,13 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           avatar: null,
         }}
         onSubmit={async (values, { resetForm }) => {
-          console.log(values.avatar);
-          await registerWithEmailAndPassword.register(values);
-          resetForm();
-          onSuccess();
+          try {
+            await registerWithEmailAndPassword.register(values);
+            resetForm();
+            onSuccess();
+          } catch {
+            toast.error('There was an error during registration');
+          }
         }}
         validationSchema={validationSchema}
       >
@@ -98,6 +102,6 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       <p className='mt-6 text-sm'>
         Already have an account? <Link to='/auth/login'>Login</Link>
       </p>
-    </div>
+    </>
   );
 };

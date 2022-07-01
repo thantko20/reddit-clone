@@ -6,7 +6,7 @@ export const Register = () => {
 
   return (
     <Layout title='Register an Account'>
-      <RegisterForm onSuccess={() => navigate('/app')} />
+      <RegisterForm onSuccess={() => navigate('/auth/login')} />
     </Layout>
   );
 };

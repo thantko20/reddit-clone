@@ -25,7 +25,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const loginWithEmailAndPassword = useLoginWithEmailAndPassword();
 
   return (
-    <div>
+    <>
       <Formik
         initialValues={{
           email: '',
@@ -54,6 +54,6 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       <p className='mt-6 text-sm'>
         Don't have an account? <Link to='/auth/register'>Create One</Link>
       </p>
-    </div>
+    </>
   );
 };
