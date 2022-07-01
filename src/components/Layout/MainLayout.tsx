@@ -1,4 +1,4 @@
-import { Avatar, Button, Link, Spinner } from 'components/Elements';
+import { Avatar, Button, Link } from 'components/Elements';
 import { Logo } from 'components/Logo';
 import { Auth, signOut } from 'firebase/auth';
 import { useAuth } from 'providers';
