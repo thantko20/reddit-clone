@@ -1,4 +1,4 @@
-import { Button, Link, Spinner } from 'components/Elements';
+import { Avatar, Button, Link, Spinner } from 'components/Elements';
 import { Logo } from 'components/Logo';
 import { Auth, signOut } from 'firebase/auth';
 import { useAuth } from 'providers';
@@ -17,11 +17,7 @@ const Header = () => {
         </Link>
         <div className='flex items-center gap-4'>
           <div className='flex items-center gap-2 text-sm'>
-            <img
-              className='bg-white rounded-full w-8 h-8 overflow-hidden'
-              src={user?.avatarURL as string}
-              alt='user avatar'
-            />
+            <Avatar url={user?.avatarURL as string} />
             <div className='text-gray-100 text-xs font-semibold'>
               u/{user?.username}
             </div>
