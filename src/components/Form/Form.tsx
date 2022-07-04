@@ -6,5 +6,5 @@ export interface FormProps {
 }
 
 export const Form = ({ children }: FormProps) => {
-  return <FormikForm className='space-y-8'>{children}</FormikForm>;
+  return <FormikForm className='space-y-4'>{children}</FormikForm>;
 };
