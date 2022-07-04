@@ -8,6 +8,7 @@ export type TextInputFieldProps = {
   label: string;
   placeholder?: string;
   className?: string;
+  autoComplete?: 'on' | 'off';
 };
 
 export const TextInputField = ({
@@ -39,7 +40,9 @@ export const TextInputField = ({
         <div className='mt-1 text-red-400 text-sm max-w-full' role='alert'>
           {meta.error}
         </div>
-      ) : null}
+      ) : (
+        <div>&nbsp;</div>
+      )}
     </div>
   );
 };
