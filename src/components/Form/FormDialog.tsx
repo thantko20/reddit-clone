@@ -1,6 +1,6 @@
 import { Transition, Dialog } from '@headlessui/react';
 import { Button } from 'components/Elements';
-import { Formik, FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 import { useDisclosure } from 'hooks/useDisclosure';
 import { cloneElement, Fragment, ReactElement, ReactNode, useRef } from 'react';
 import { Form } from './Form';
@@ -34,7 +34,7 @@ export const FormDialog = ({
   return (
     <>
       {cloneElement(triggerButton, { onClick: open })}
-      <Transition appear show={isOpen}>
+      <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as='div'
           onClose={close}
@@ -60,7 +60,7 @@ export const FormDialog = ({
             enterTo='opacity-100 scale-100'
             leave='ease-in-out duration-200'
             leaveFrom='opacity-100 scale-100'
-            leaveTo='opacity-30 scale-80'
+            leaveTo='opacity-0 scale-0'
           >
             <div className='fixed inset-0 flex justify-center items-start top-[10%] text-lightGray'>
               <Dialog.Panel className='bg-body py-6 px-8 rounded-lg'>
