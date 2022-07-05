@@ -1,5 +1,6 @@
 import { Avatar, Button, Link } from 'components/Elements';
 import { Logo } from 'components/Logo';
+import { SignOut } from 'features/auth/components/SignOut';
 import { Auth, signOut } from 'firebase/auth';
 import { useAuth } from 'providers';
 import { ReactNode } from 'react';
@@ -22,15 +23,7 @@ const Header = () => {
               u/{user?.username}
             </div>
           </div>
-          <Button
-            variant='secondary'
-            onClick={async () => {
-              await signOut(auth as Auth);
-              navigate('/auth/login');
-            }}
-          >
-            Sign Out
-          </Button>
+          <SignOut />
         </div>
       </nav>
     </header>
