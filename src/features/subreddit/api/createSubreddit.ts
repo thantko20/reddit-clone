@@ -12,6 +12,7 @@ import { db } from 'lib/firebase/firebase';
 import { useAuth } from 'providers';
 import { useState } from 'react';
 import uniqid from 'uniqid';
+import { Subreddit } from '../types';
 
 export const useCreateSubreddit = () => {
   const [loading, setLoading] = useState(false);
@@ -44,7 +45,7 @@ export const useCreateSubreddit = () => {
       createdAt: Date.now(),
       id,
       threads: [],
-    });
+    } as Subreddit);
 
     // Update the user's doc's 'joinedSubreddits' array, adding newly created subreddit's id
     await updateDoc(userRef, {
