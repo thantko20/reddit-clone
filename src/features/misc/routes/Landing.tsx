@@ -22,7 +22,7 @@ export const Landing = () => {
             </Link>
             <h1 className='text-3xl mt-20 sm:text-5xl text-lightGray font-bold sm:text-center md:text-right'>
               a network of communities where{' '}
-              <span className='text-red'>people</span> can dive into their
+              <span className='text-mainRed'>people</span> can dive into their
               interests, hobbies and passions.
             </h1>
             <div className='mt-8 flex gap-4'>

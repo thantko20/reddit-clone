@@ -22,8 +22,8 @@ export const Avatar = ({
   return (
     <img
       className={clsx(
-        'bg-white rounded-full w-8 h-8 overflow-hidden',
-        size,
+        'bg-white rounded-full overflow-hidden',
+        sizes[size],
         className,
       )}
       src={url}

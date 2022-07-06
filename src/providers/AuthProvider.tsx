@@ -3,15 +3,21 @@ import { auth, db } from 'lib/firebase/firebase';
 import { Auth, onAuthStateChanged } from 'firebase/auth';
 import { UserType } from 'features/auth/types';
 import { doc, getDoc } from 'firebase/firestore';
+import { User } from '@firebase/auth-types';
+import { getUser } from 'features/auth/api';
 
 export interface AuthContextValue {
   auth: Auth | null;
   user: UserType;
+  isLoggedIn: boolean;
+  checkingStatus: boolean;
 }
 
 const initialAuthValue: AuthContextValue = {
   auth: null,
   user: null,
+  isLoggedIn: false,
+  checkingStatus: false,
 };
 
 const AuthContext = createContext<AuthContextValue>(initialAuthValue);
@@ -25,28 +31,29 @@ export interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserType>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // For getting rid of the immediate redirect to auth pages while pulling
+  // user creds from the server
+  const [checkingStatus, setCheckingStatus] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async () => {
-      await getUser();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        const res = (await getUser()) as UserType;
+        setUser(res);
+      } else {
+        setIsLoggedIn(false);
+        setUser(null);
+      }
+      setCheckingStatus(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  const getUser = async () => {
-    if (!auth.currentUser) {
-      setUser(null);
-      return;
-    }
-
-    const userRef = doc(db, 'users', auth.currentUser.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) setUser(userSnap.data() as UserType);
-  };
-
-  const value = { auth, user };
+  const value = { auth, user, isLoggedIn, checkingStatus };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

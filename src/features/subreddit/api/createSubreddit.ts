@@ -1,11 +1,9 @@
 import {
-  arrayUnion,
   collection,
   doc,
   getDocs,
   query,
   setDoc,
-  updateDoc,
   where,
 } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
@@ -25,7 +23,6 @@ export const useCreateSubreddit = () => {
     setLoading(true);
 
     const subredditsRef = collection(db, 'subreddits');
-    const userRef = doc(db, 'users', user.id);
 
     const q = query(subredditsRef, where('name', '==', name));
 
@@ -44,13 +41,7 @@ export const useCreateSubreddit = () => {
       members: [user.id],
       createdAt: Date.now(),
       id,
-      threads: [],
     } as Subreddit);
-
-    // Update the user's doc's 'joinedSubreddits' array, adding newly created subreddit's id
-    await updateDoc(userRef, {
-      joinedSubreddits: arrayUnion(id),
-    });
     setLoading(false);
   };
 

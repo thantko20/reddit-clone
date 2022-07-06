@@ -3,7 +3,6 @@ import { doc, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth, db, storage } from 'lib/firebase/firebase';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import uniqid from 'uniqid';
 
 type FileType = File | null | undefined;
@@ -35,8 +34,6 @@ const saveUser = async ({ avatarURL = '', ...info }: SaveUserParameters) => {
     ...info,
     avatarURL,
     createdAt: Date.now(),
-    joinedSubreddits: [],
-    threads: [],
   });
 };
 

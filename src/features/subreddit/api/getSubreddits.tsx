@@ -1,11 +1,11 @@
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useGetSubreddits = () => {
   const [loading, setLoading] = useState(false);
 
-  const get = async () => {
+  const getSubreddits = async () => {
     try {
       setLoading(true);
       const querySnapshot = await getDocs(collection(db, 'subreddits'));
@@ -27,5 +27,5 @@ export const useGetSubreddits = () => {
     }
   };
 
-  return { get, loading };
+  return { getSubreddits, loading };
 };
