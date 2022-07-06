@@ -1,6 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const useGetSubreddits = () => {
   const [loading, setLoading] = useState(false);

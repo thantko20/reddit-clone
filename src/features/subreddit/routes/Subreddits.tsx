@@ -57,11 +57,11 @@ export const Subreddits = () => {
   const { user } = useAuth();
 
   const [subreddits, setSubreddits] = useState<SubredditsType>([]);
-  const { getSubreddits, loading } = useGetSubreddits();
+  const { getSubreddits } = useGetSubreddits();
 
   useEffect(() => {
     getSubreddits().then((data) => setSubreddits(data as SubredditsType));
-  }, []);
+  }, [getSubreddits]);
 
   return (
     <div>

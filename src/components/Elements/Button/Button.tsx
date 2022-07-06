@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ButtonHTMLAttributes, forwardRef, LegacyRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { Spinner } from '../Spinner';
 
 const variants = {
