@@ -5,7 +5,7 @@ import { useAuth } from 'providers';
 export const MainPage = () => {
   const { user } = useAuth();
   return (
-    <main className='max-w-2xl w-full mx-auto px-1'>
+    <main className='max-w-2xl w-full mx-auto px-1 pt-10'>
       <div className='w-full flex flex-col gap-y-6 sm:flex-row sm:justify-between sm:items-center bg-body rounded-lg p-4'>
         <div className='flex items-center gap-2 self-center'>
           <Avatar url={user?.avatarURL as string} />

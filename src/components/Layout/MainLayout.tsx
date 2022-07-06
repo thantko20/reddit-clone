@@ -11,7 +11,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className='w-full bg-body fixed top-0'>
+    <header className='w-full bg-body sticky top-0 border-b border-gray-600 z-50'>
       <nav className='max-w-6xl px-4 mx-auto w-full flex items-center justify-between'>
         <Link to='/'>
           <Logo />
@@ -37,7 +37,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className='h-screen bg-canvas relative'>
       <Header />
-      <div className='pt-20 w-full max-w-5xl mx-auto'>{children}</div>
+      <div className='w-full max-w-5xl mx-auto'>{children}</div>
     </div>
   );
 };

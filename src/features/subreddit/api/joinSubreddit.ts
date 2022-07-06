@@ -3,14 +3,12 @@ import {
   arrayUnion,
   collection,
   doc,
-  getDoc,
   getDocs,
   query,
   updateDoc,
   where,
 } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
-import { useAuth } from 'providers';
 import { useState } from 'react';
 
 export const hasJoinedSubreddit = async (

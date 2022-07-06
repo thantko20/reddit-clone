@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PublicRoutes } from './public';
 import { ProtectedRoutes } from './protected';
 import { authRoutes } from 'features/auth/routes';
-import { Subreddits } from 'features/subreddit/routes';
+import { SubredditPage, Subreddits } from 'features/subreddit/routes';
 
 export const AppRoutes = () => {
   return (
@@ -12,7 +12,8 @@ export const AppRoutes = () => {
         <Route path='/' element={<Landing />} />
         <Route path='/app/' element={<ProtectedRoutes />}>
           <Route index element={<MainPage />} />
-          <Route path='subreddits' element={<Subreddits />} />
+          <Route path='subreddits/' element={<Subreddits />} />
+          <Route path='subreddits/:subredditId' element={<SubredditPage />} />
         </Route>
         <Route path='/auth/' element={<PublicRoutes />}>
           {authRoutes.map((route, id) => (

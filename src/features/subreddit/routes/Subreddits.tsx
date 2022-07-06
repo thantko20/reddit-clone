@@ -1,8 +1,9 @@
-import { Button } from 'components';
+import { Button, Link } from 'components';
 import { useAuth } from 'providers';
 import { useEffect, useState } from 'react';
 import { useGetSubreddits } from '../api/getSubreddits';
-import { useJoinSubreddit, hasJoinedSubreddit } from '../api/joinSubreddits';
+import { useJoinSubreddit, hasJoinedSubreddit } from '../api/joinSubreddit';
+import { JoinSubreddit } from '../components/JoinSubreddit';
 import { Subreddit } from '../types';
 
 export interface SubredditListItemProps {
@@ -14,39 +15,10 @@ export const SubredditListItem = ({
   subreddit,
   userId,
 }: SubredditListItemProps) => {
-  const [userHasJoined, setUserHasJoined] = useState(
-    subreddit.members.includes(userId),
-  );
-
-  const { joinSubreddit, loading } = useJoinSubreddit();
-
-  const handleOnJoinClick = async () => {
-    await joinSubreddit(subreddit.id, userId);
-    const hasJoined = await hasJoinedSubreddit(userId, subreddit.id);
-
-    setUserHasJoined(hasJoined);
-  };
-
   return (
     <li className='px-6 py-8 bg-body text-lg rounded-lg flex justify-between'>
-      <span>r/{subreddit.name}</span>
-      {userHasJoined ? (
-        <Button
-          variant='primary'
-          onClick={handleOnJoinClick}
-          isLoading={loading}
-        >
-          Joined
-        </Button>
-      ) : (
-        <Button
-          variant='secondary'
-          onClick={handleOnJoinClick}
-          isLoading={loading}
-        >
-          Join
-        </Button>
-      )}
+      <Link to={subreddit.id}>r/{subreddit.name}</Link>
+      <JoinSubreddit subreddit={subreddit} userId={userId} />
     </li>
   );
 };
@@ -61,10 +33,10 @@ export const Subreddits = () => {
 
   useEffect(() => {
     getSubreddits().then((data) => setSubreddits(data as SubredditsType));
-  }, [getSubreddits]);
+  }, []);
 
   return (
-    <div>
+    <div className='pt-10'>
       <ul className='w-full flex flex-col gap-6'>
         {!subreddits && <div>No Subreddits Here</div>}
         {subreddits.map((subreddit) => (
