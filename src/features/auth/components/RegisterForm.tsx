@@ -1,10 +1,8 @@
-import { Button, Form, Link, TextInputField } from 'components';
+import { Button, FileInput, Form, Link, TextInputField } from 'components';
 import { useRegisterWithEmailAndPassword } from '../api';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import toast from 'react-hot-toast';
-
-// const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email').required(),
@@ -17,8 +15,19 @@ const validationSchema = yup.object().shape({
   name: yup.string().required(),
   username: yup
     .string()
-    .min(2, 'Username should have minimum 2 characters length')
-    .required(),
+    .trim()
+    .required()
+    .min(2)
+    .max(20)
+    .matches(/^[^\s-]+$/, 'White spaces and hyphen are not allowed'),
+
+  avatar: yup
+    .mixed()
+    .test(
+      'fileSize',
+      'File is too large. Maximum file size is 1MB',
+      (value) => !value || (value && value.size <= 1048576),
+    ),
 });
 
 interface RegisterFormProps {
@@ -70,26 +79,14 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
               id='username'
               type='text'
             />
-            <div>
-              <label htmlFor='avatar' className='block'>
-                Choose Profile Picture
-              </label>
 
-              <input
-                className='mt-1'
-                type='file'
-                id='avatar'
-                name='avatar'
-                accept='image/png, image/jpeg'
-                onChange={(e) => {
-                  if (!e.target.files) return;
-                  const file = e.target.files[0];
-                  console.log(file);
-                  setFieldValue('avatar', file);
-                }}
-              />
-            </div>
-
+            <FileInput
+              label='Choose a profile picture'
+              id='avatar'
+              name='avatar'
+              fileType='image/png, image/jpeg'
+              setFile={setFieldValue}
+            />
             <Button
               type='submit'
               isLoading={registerWithEmailAndPassword.isLoading}
