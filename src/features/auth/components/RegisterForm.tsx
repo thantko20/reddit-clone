@@ -58,43 +58,35 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         }}
         validationSchema={validationSchema}
       >
-        {({ setFieldValue }) => (
-          <Form>
-            <TextInputField
-              label='Email'
-              name='email'
-              id='email'
-              type='email'
-            />
-            <TextInputField
-              label='Password'
-              name='password'
-              id='password'
-              type='password'
-            />
-            <TextInputField label='Name' name='name' id='name' type='text' />
-            <TextInputField
-              label='Username'
-              name='username'
-              id='username'
-              type='text'
-            />
+        <Form>
+          <TextInputField label='Email' name='email' id='email' type='email' />
+          <TextInputField
+            label='Password'
+            name='password'
+            id='password'
+            type='password'
+          />
+          <TextInputField label='Name' name='name' id='name' type='text' />
+          <TextInputField
+            label='Username'
+            name='username'
+            id='username'
+            type='text'
+          />
 
-            <FileInput
-              label='Choose a profile picture'
-              id='avatar'
-              name='avatar'
-              fileType='image/png, image/jpeg'
-              setFile={setFieldValue}
-            />
-            <Button
-              type='submit'
-              isLoading={registerWithEmailAndPassword.isLoading}
-            >
-              Register
-            </Button>
-          </Form>
-        )}
+          <FileInput
+            label='Choose a profile picture'
+            id='avatar'
+            name='avatar'
+            fileType='image/png, image/jpeg, image/jpg'
+          />
+          <Button
+            type='submit'
+            isLoading={registerWithEmailAndPassword.isLoading}
+          >
+            Register
+          </Button>
+        </Form>
       </Formik>
       <p className='mt-6 text-sm'>
         Already have an account? <Link to='/auth/login'>Login</Link>

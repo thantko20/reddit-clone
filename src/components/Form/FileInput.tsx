@@ -1,5 +1,5 @@
-import { ChangeEvent, ChangeEventHandler } from 'react';
-import { useField } from 'formik';
+import { ChangeEvent } from 'react';
+import { useField, useFormikContext } from 'formik';
 import { useState } from 'react';
 
 export interface FileInputProps {
@@ -7,16 +7,12 @@ export interface FileInputProps {
   name: string;
   fileType: string;
   id?: string;
-  setFile: (
-    field: string,
-    value: any,
-    shouldValidate?: boolean | undefined,
-  ) => void;
 }
 
 export const FileInput = ({ label, name, ...props }: FileInputProps) => {
   const [, meta] = useField(name);
   const [filename, setFilename] = useState('');
+  const { setFieldValue } = useFormikContext();
 
   return (
     <div>
@@ -37,7 +33,7 @@ export const FileInput = ({ label, name, ...props }: FileInputProps) => {
 
               setFilename(file.name);
 
-              props.setFile(name, file);
+              setFieldValue(name, file);
             } else {
               setFilename('');
             }
