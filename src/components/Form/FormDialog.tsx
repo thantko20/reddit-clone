@@ -63,7 +63,7 @@ export const FormDialog = ({
             leaveTo='opacity-0 scale-0'
           >
             <div className='fixed inset-0 flex justify-center items-start top-[10%] text-lightGray'>
-              <Dialog.Panel className='bg-body py-6 px-8 rounded-lg'>
+              <Dialog.Panel className='bg-body py-6 px-8 rounded-lg w-full max-w-xl'>
                 <Dialog.Title className='text-lg font-bold'>
                   {title}
                 </Dialog.Title>
