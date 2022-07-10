@@ -1,8 +1,10 @@
+import { Votes, VotesType } from 'features/votes/types';
 import { doc, setDoc } from 'firebase/firestore';
 import { db, saveFileInStorage } from 'lib/firebase/firebase';
 import { useAuth } from 'providers';
 import { useState } from 'react';
 import uniqid from 'uniqid';
+import { ThreadType } from '../types';
 
 interface CreateThreadFormValues {
   title: string;
@@ -49,7 +51,7 @@ export const useCreateThread = () => {
         },
         id: threadId,
         createdAt: Date.now(),
-      });
+      } as ThreadType);
 
       // Votes in Thread
       await setDoc(votesRef, {
@@ -57,7 +59,7 @@ export const useCreateThread = () => {
         downvotes: [],
         type: 'THREAD',
         referId: threadId,
-      });
+      } as Votes);
 
       setLoading(false);
     } catch (err: unknown) {

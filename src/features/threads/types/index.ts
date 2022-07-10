@@ -11,8 +11,6 @@ export interface CommentType {
 export interface ThreadType {
   title: string;
   description: string;
-  upvotes: string[];
-  downvotes: string[];
   imageURL?: string;
   id: string;
   author: {
