@@ -4,6 +4,7 @@ import {
   FileInput,
   Link,
   Select,
+  SelectOptionType,
   TextareaField,
   TextInputField,
 } from 'components';
@@ -11,11 +12,10 @@ import { FormDialog } from 'components/Form/FormDialog';
 import { useGetUserSubreddits } from 'features/subreddit/api/getUserSubreddits';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 import * as yup from 'yup';
 import { useCreateThread } from '../api';
-
-export type SelectOptionType = { label: string; value: string };
 
 const validationSchema = yup.object().shape({
   title: yup.string().required(),
@@ -40,6 +40,7 @@ export const CreateThread = () => {
   );
   const { loading, getUserSubreddits } = useGetUserSubreddits();
   const { loading: creating, createThread } = useCreateThread();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUserSubreddits().then((res) =>
@@ -76,6 +77,7 @@ export const CreateThread = () => {
             }`,
           );
           close();
+          navigate(0);
         } catch (err: unknown) {
           if (err instanceof Error) {
             toast.error(err.message);
@@ -101,7 +103,11 @@ export const CreateThread = () => {
       {loading ? (
         <div>Fetching Subreddits. Please Wait</div>
       ) : subredditOptions.length !== 0 ? (
-        <Select name='subredditInfo' options={subredditOptions} />
+        <Select
+          name='subredditInfo'
+          options={subredditOptions}
+          label='Select subreddit to post'
+        />
       ) : (
         <div>
           You haven't joined any subreddits. Click{' '}

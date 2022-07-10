@@ -31,14 +31,14 @@ export const useCreateThread = () => {
         : '';
 
       const threadId = uniqid();
+      const votesId = uniqid();
       const threadRef = doc(db, 'threads', threadId);
+      const votesRef = doc(db, 'votes', votesId);
 
       await setDoc(threadRef, {
         title,
         description,
         imageURL,
-        upvotes: [],
-        downvotes: [],
         author: {
           name: user?.username,
           id: user?.id,
@@ -48,6 +48,15 @@ export const useCreateThread = () => {
           id: subredditInfo.value,
         },
         id: threadId,
+        createdAt: Date.now(),
+      });
+
+      // Votes in Thread
+      await setDoc(votesRef, {
+        upvotes: [user?.id],
+        downvotes: [],
+        type: 'THREAD',
+        referId: threadId,
       });
 
       setLoading(false);

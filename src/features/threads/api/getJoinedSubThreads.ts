@@ -2,7 +2,7 @@ import { useGetUserSubreddits } from 'features/subreddit/api/getUserSubreddits';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
 import { useAuth } from 'providers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { chunksArray } from 'utils';
 import { ThreadType } from '../types';
 
