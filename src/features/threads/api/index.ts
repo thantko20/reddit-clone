@@ -1,3 +1,4 @@
 export * from './createThread';
-export * from './getThreads';
+export * from './getSubThreads';
 export * from './getJoinedSubThreads';
+export * from './deleteThread';

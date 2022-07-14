@@ -1,4 +1,3 @@
-import { Votes, VotesType } from 'features/votes/types';
 import { doc, setDoc } from 'firebase/firestore';
 import { db, saveFileInStorage } from 'lib/firebase/firebase';
 import { useAuth } from 'providers';
@@ -33,14 +32,15 @@ export const useCreateThread = () => {
         : '';
 
       const threadId = uniqid();
-      const votesId = uniqid();
       const threadRef = doc(db, 'threads', threadId);
-      const votesRef = doc(db, 'votes', votesId);
 
       await setDoc(threadRef, {
         title,
         description,
         imageURL,
+        upvotes: [user?.id as string],
+        downvotes: [],
+        voteCounts: 1,
         author: {
           name: user?.username,
           id: user?.id,
@@ -52,14 +52,6 @@ export const useCreateThread = () => {
         id: threadId,
         createdAt: Date.now(),
       } as ThreadType);
-
-      // Votes in Thread
-      await setDoc(votesRef, {
-        upvotes: [user?.id],
-        downvotes: [],
-        type: 'THREAD',
-        referId: threadId,
-      } as Votes);
 
       setLoading(false);
     } catch (err: unknown) {
