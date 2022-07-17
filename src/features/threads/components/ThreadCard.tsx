@@ -3,6 +3,7 @@ import { VotesUI } from 'features/votes/components';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { calcTimePast } from 'utils';
 import { ThreadType } from '../types';
 
@@ -31,6 +32,8 @@ export const ThreadCard = ({
     voteCounts,
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, 'threads', id), (doc) => {
       const data = doc.data() as ThreadType;
@@ -43,7 +46,7 @@ export const ThreadCard = ({
   return (
     <div
       className='bg-body rounded-lg overflow-hidden flex w-full text-left cursor-pointer border border-gray-600 hover:border-gray-400'
-      onClick={() => console.log('hi')}
+      onClick={() => navigate(`/app/subreddits/${subreddit.id}/${id}`)}
     >
       <div className='flex-shrink-0 p-1 sm:p-3'>
         <VotesUI
