@@ -13,6 +13,7 @@ export interface ThreadType {
   description: string;
   imageURL?: string;
   id: string;
+  commentCounts: number;
   voteCounts: number;
   upvotes: string[];
   downvotes: string[];
