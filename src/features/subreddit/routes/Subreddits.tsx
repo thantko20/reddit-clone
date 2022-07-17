@@ -36,7 +36,7 @@ export const Subreddits = () => {
   }, []);
 
   return (
-    <div className='pt-10'>
+    <div className='pt-10 w-full max-w-3xl mx-auto'>
       <ul className='w-full flex flex-col gap-6'>
         {!subreddits && <div>No Subreddits Here</div>}
         {subreddits.map((subreddit) => (
