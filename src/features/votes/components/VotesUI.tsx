@@ -1,23 +1,40 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import clsx from 'clsx';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { useVote } from '../api';
-import clsx from 'clsx';
 import { VoteOrigin } from '../types';
 import { useAuth } from 'providers';
+
+const alignments = {
+  vertical: 'flex-col',
+  horizontal: 'flex-row',
+};
 
 export interface VoteProps {
   originId: string;
   type: VoteOrigin;
   upvotes: string[];
   downvotes: string[];
+  alignment?: keyof typeof alignments;
 }
 
-export const VotesUI = ({ originId, type, upvotes, downvotes }: VoteProps) => {
+export const VotesUI = ({
+  originId,
+  type,
+  upvotes,
+  downvotes,
+  alignment = 'vertical',
+}: VoteProps) => {
   const { user } = useAuth();
   const { vote } = useVote(type, originId);
 
   return (
-    <div className='flex flex-col items-center gap-2 text-zinc-400'>
+    <div
+      className={clsx(
+        'flex items-center gap-2 text-zinc-400',
+        alignments[alignment],
+      )}
+    >
       <button
         onClick={async (e) => {
           e.stopPropagation();
