@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# Mini Reddit Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A mini reddit clone clone created with CRA and deployed by vercel.
 
-## Available Scripts
+For live preview, visit [here](https://reddit-clone-marco.vercel.app/)
 
-In the project directory, you can run:
+Project Folder Structure is inspired by [Bullet Proof React](https://github.com/alan2207/bulletproof-react)
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React + Typescript
+- Tailwind + headlessui for styling
+- Firebase for backend
+- react-router-dom for routing
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **User Authentication** -> User can register, login and sign out with their email.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Subreddits** -> As irl reddit website, users can create their own communities, join or leave them.
 
-### `npm run build`
+- **Posting Threads** -> Every social media app has this feature. Well, there you go. Integrated with _Vote Feature_.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Comments** -> People like to shout their words into somebody else's thoughts. Like it? Praise them. Integrated with _Vote Feature_.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Vote Feature** -> There are two divisions on one's opinion. Like and Dislike. Upvote it if you like it, otherwise, downvote.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Roadmap
 
-### `npm run eject`
+1. Improve on design.
+2. Delete threads/comments.
+3. Edit threads/comments.
+4. Filter threads/comments.
+5. Optimize firebase requests.
+6. v2 with MERN Stack.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Demo Images
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![login_page](./demo_images/login_page.png 'Login Page')
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![main_page](./demo_images/main_page.png 'Main Page')
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![thread_page](./demo_images/thread_page.png 'Thread Page')
