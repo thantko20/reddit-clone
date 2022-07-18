@@ -35,7 +35,7 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className='h-screen bg-canvas relative'>
+    <div className='min-h-screen bg-canvas relative'>
       <Header />
       <div className='w-full max-w-5xl mx-auto'>{children}</div>
     </div>
