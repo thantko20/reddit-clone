@@ -10,14 +10,16 @@ const validationSchema = yup.object().shape({
 
 interface AddCommentProps {
   threadId: string;
+  scrollToBottom: () => void;
 }
 
-export const AddComment = ({ threadId }: AddCommentProps) => {
+export const AddComment = ({ threadId, scrollToBottom }: AddCommentProps) => {
   const { addComment, loading } = useAddComment();
 
   const handleSubmit = async (description: string) => {
     try {
       await addComment(description, threadId);
+      scrollToBottom();
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);

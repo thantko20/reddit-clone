@@ -4,9 +4,10 @@ import { calcTimePast } from 'utils';
 import { AddComment } from './AddComment';
 import { CommentType } from '../types';
 import { useGetComments } from '../api';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
+import { orderCommentsByVotes } from 'features/utils';
 
 type CommentProps = CommentType;
 
@@ -49,9 +50,16 @@ export const CommentsSection = ({ threadId }: CommentsSectionProps) => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const { getComments, loading } = useGetComments();
 
+  const scrollRef = useRef<null | HTMLDivElement>(null);
+
+  const executeScroll = () => {
+    if (scrollRef.current)
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const fetchComments = useCallback(async () => {
     const data = await getComments(threadId);
-    setComments(data as CommentType[]);
+    setComments(orderCommentsByVotes(data as CommentType[]));
   }, [getComments, threadId]);
 
   useEffect(() => {
@@ -64,8 +72,8 @@ export const CommentsSection = ({ threadId }: CommentsSectionProps) => {
       collection(db, 'comments'),
       where('threadId', '==', threadId),
     );
-    const unsubscribe = onSnapshot(q, () => {
-      fetchComments();
+    const unsubscribe = onSnapshot(q, async () => {
+      await fetchComments();
     });
 
     return () => unsubscribe();
@@ -74,17 +82,18 @@ export const CommentsSection = ({ threadId }: CommentsSectionProps) => {
   return (
     <div className='bg-body mt-4 rounded-lg divide-y divide-zinc-700/40'>
       <div className='p-6'>
-        <AddComment threadId={threadId} />
+        <AddComment threadId={threadId} scrollToBottom={executeScroll} />
       </div>
       {loading && !comments ? (
         <div className='flex justify-center pt-10'>
           <Spinner />
         </div>
       ) : comments.length > 0 ? (
-        <div className='flex flex-col gap-8 py-6'>
+        <div className='relative flex flex-col gap-8 py-6'>
           {comments.map((comment) => (
             <Comment key={comment.id} {...comment} />
           ))}
+          <div ref={scrollRef} className='absolute bottom-0'></div>
         </div>
       ) : (
         <div className='flex py-20 justify-center w-full'>
