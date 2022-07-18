@@ -39,7 +39,7 @@ export const calcTimePast = (unixTime: number): string => {
   const year = month * 12;
 
   if (timeDiff <= minute) {
-    return 'a minute ago';
+    return 'Just now';
   } else if (timeDiff < hour) {
     return `${Math.floor(timeDiff / minute)}min. ago`;
   } else if (timeDiff < day) {
