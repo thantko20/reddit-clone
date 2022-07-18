@@ -1,10 +1,12 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {
+  arrayUnion,
   collection,
   doc,
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import { auth, db, saveFileInStorage } from 'lib/firebase/firebase';
@@ -72,6 +74,11 @@ export const useRegisterWithEmailAndPassword = () => {
         : 'https://firebasestorage.googleapis.com/v0/b/reddit-clone-marco1.appspot.com/o/default_avatar.png?alt=media&token=15dcbbf2-3e3d-4d26-a064-ce37d9425fe3';
 
       saveUser({ name, username, avatarURL, email, id });
+
+      // Automatically joins newly registered user to MarcoSubreddit subreddit
+      await updateDoc(doc(db, 'subreddits', 'iOZUHNglgKnNTkxkp24B'), {
+        members: arrayUnion(id),
+      });
 
       setIsLoading(false);
     } catch (err: unknown) {
