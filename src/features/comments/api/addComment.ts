@@ -21,7 +21,7 @@ export const useAddComment = () => {
         await setDoc(commentRef, {
           author: {
             id: user.id,
-            name: user.name,
+            name: user.username,
             avatarURL: user.avatarURL,
           },
           description,
