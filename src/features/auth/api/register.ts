@@ -1,23 +1,16 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { auth, db, storage } from 'lib/firebase/firebase';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import { auth, db, saveFileInStorage } from 'lib/firebase/firebase';
 import { useState } from 'react';
-import uniqid from 'uniqid';
 
 type FileType = File | null | undefined;
-
-const saveAvatar = async (file: FileType) => {
-  if (!file) return;
-
-  const imgRef = ref(storage, `avatars/${uniqid()}`);
-
-  await uploadBytes(imgRef, file);
-
-  const downloadURL = await getDownloadURL(imgRef);
-
-  return downloadURL;
-};
 
 interface SaveUserParameters {
   email: string;
@@ -57,6 +50,15 @@ export const useRegisterWithEmailAndPassword = () => {
   }: RegisterCredentials) => {
     try {
       setIsLoading(true);
+
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('username', '==', username));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        setIsLoading(false);
+        throw new Error('Username already exists');
+      }
+
       const result = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -65,14 +67,18 @@ export const useRegisterWithEmailAndPassword = () => {
 
       const id = result.user.uid;
 
-      const avatarURL = (await saveAvatar(avatar)) as string;
+      const avatarURL = avatar
+        ? ((await saveFileInStorage(avatar, 'images')) as string)
+        : 'https://firebasestorage.googleapis.com/v0/b/reddit-clone-marco1.appspot.com/o/default_avatar.png?alt=media&token=15dcbbf2-3e3d-4d26-a064-ce37d9425fe3';
 
       saveUser({ name, username, avatarURL, email, id });
 
       setIsLoading(false);
-    } catch (err) {
+    } catch (err: unknown) {
       setIsLoading(false);
-      throw new Error();
+      if (err instanceof Error) {
+        throw new Error(err.message);
+      }
     }
   };
 

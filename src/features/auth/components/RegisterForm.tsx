@@ -52,8 +52,10 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             await registerWithEmailAndPassword.register(values);
             resetForm();
             onSuccess();
-          } catch {
-            toast.error('There was an error during registration');
+          } catch (err: unknown) {
+            if (err instanceof Error) {
+              toast.error(err.message);
+            }
           }
         }}
         validationSchema={validationSchema}
@@ -74,12 +76,18 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             type='text'
           />
 
-          <FileInput
-            label='Choose a profile picture'
-            id='avatar'
-            name='avatar'
-            fileType='image/png, image/jpeg, image/jpg'
-          />
+          <div>
+            <span className='text-sm text-zinc-600'>
+              Maximum file size is 1MB
+            </span>
+            <FileInput
+              fileType='image/png, image/jpeg, image/jpg'
+              label='Choose an image to Upload'
+              name='image'
+              id='
+      image'
+            />
+          </div>
           <Button
             type='submit'
             isLoading={registerWithEmailAndPassword.isLoading}
@@ -89,7 +97,10 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         </Form>
       </Formik>
       <p className='mt-6 text-sm'>
-        Already have an account? <Link to='/auth/login'>Login</Link>
+        Already have an account?{' '}
+        <Link to='/auth/login' colour='red'>
+          Login
+        </Link>
       </p>
     </>
   );

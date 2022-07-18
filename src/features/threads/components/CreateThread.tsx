@@ -115,13 +115,16 @@ export const CreateThread = () => {
         </div>
       )}
 
-      <FileInput
-        fileType='image/png, image/jpeg, image/jpg'
-        label='Choose an image to Upload'
-        name='image'
-        id='
+      <div>
+        <span className='text-sm text-zinc-600'>Maximum file size is 2MB</span>
+        <FileInput
+          fileType='image/png, image/jpeg, image/jpg'
+          label='Choose an image to Upload'
+          name='image'
+          id='
       image'
-      />
+        />
+      </div>
     </FormDialog>
   );
 };
