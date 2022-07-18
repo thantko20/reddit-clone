@@ -1,4 +1,5 @@
 import { useCreateSubreddit } from '../api';
+import { useNavigate } from 'react-router-dom';
 import { Button, TextInputField } from 'components';
 import { FormDialog } from 'components/Form/FormDialog';
 import * as yup from 'yup';
@@ -16,6 +17,7 @@ const validationSchema = yup.object().shape({
 
 export const CreateSubreddit = () => {
   const createSubreddit = useCreateSubreddit();
+  const navigate = useNavigate();
 
   return (
     <FormDialog
@@ -31,6 +33,7 @@ export const CreateSubreddit = () => {
           await createSubreddit.create(values.name);
           toast.success(`r/${values.name} is created.`);
           close();
+          setTimeout(() => navigate(0), 150);
         } catch (err: unknown) {
           if (err instanceof Error) {
             toast.error(err.message);

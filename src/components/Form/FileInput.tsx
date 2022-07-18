@@ -17,10 +17,9 @@ export const FileInput = ({ label, name, ...props }: FileInputProps) => {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      console.log(file);
+
       if (file) {
         setFilename(file.name);
-
         setFieldValue(name, file);
       }
     } else {

@@ -1,5 +1,4 @@
 import { Button } from 'components';
-import { useAuth } from 'providers';
 import { useState } from 'react';
 import { useJoinSubreddit, hasJoinedSubreddit } from '../api';
 import { Subreddit } from '../types';

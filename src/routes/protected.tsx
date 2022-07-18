@@ -1,7 +1,6 @@
 import { useAuth } from 'providers';
 import { Navigate, Outlet } from 'react-router-dom';
 import { MainLayout, Spinner } from 'components';
-import { useEffect } from 'react';
 
 const App = () => {
   return (

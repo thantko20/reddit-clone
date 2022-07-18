@@ -24,4 +24,9 @@ export const useDeleteThread = () => {
       }
     }
   };
+
+  return {
+    loading,
+    deleteThread,
+  };
 };

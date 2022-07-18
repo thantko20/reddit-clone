@@ -34,7 +34,11 @@ const validationSchema = yup.object().shape({
   }),
 });
 
-export const CreateThread = () => {
+interface CreateThreadProps {
+  subredditId?: string;
+}
+
+export const CreateThread = ({ subredditId = '' }: CreateThreadProps) => {
   const [subredditOptions, setSubredditOptions] = useState<SelectOptionType[]>(
     [],
   );
@@ -107,11 +111,19 @@ export const CreateThread = () => {
           name='subredditInfo'
           options={subredditOptions}
           label='Select subreddit to post'
+          defaultOption={
+            !!subredditId
+              ? subredditOptions.find((option) => option.value === subredditId)
+              : null
+          }
         />
       ) : (
         <div>
           You haven't joined any subreddits. Click{' '}
-          <Link to='/app/subreddits'>here</Link> to join some.
+          <Link to='/app/subreddits' colour='red'>
+            here
+          </Link>{' '}
+          to join some.
         </div>
       )}
 

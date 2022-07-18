@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ThreadType } from '../types';
 import { ThreadCard } from './ThreadCard';
 
+// Filter Components for future
 interface FilterThreadsProps {
   setFilterThreads: (threads: ThreadType[]) => void;
   threads: ThreadType[];

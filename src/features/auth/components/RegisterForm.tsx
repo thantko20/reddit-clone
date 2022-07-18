@@ -49,6 +49,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         }}
         onSubmit={async (values, { resetForm }) => {
           try {
+            console.log(values);
             await registerWithEmailAndPassword.register(values);
             resetForm();
             onSuccess();
@@ -83,9 +84,8 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             <FileInput
               fileType='image/png, image/jpeg, image/jpg'
               label='Choose an image to Upload'
-              name='image'
-              id='
-      image'
+              name='avatar'
+              id='avatar'
             />
           </div>
           <Button

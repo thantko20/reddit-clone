@@ -40,6 +40,7 @@ export const useCreateThread = () => {
         imageURL,
         upvotes: [user?.id as string],
         downvotes: [],
+        commentCounts: 0,
         voteCounts: 1,
         author: {
           name: user?.username,

@@ -2,10 +2,25 @@ import { firebaseConfig } from './config';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import uniqid from 'uniqid';
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+const saveFileInStorage = async (file: File, folderName: string) => {
+  if (!file) return;
+
+  const imgRef = ref(storage, `${folderName}/${uniqid()}`);
+
+  await uploadBytes(imgRef, file);
+
+  const downloadURL = await getDownloadURL(imgRef);
+
+  return downloadURL;
+};
+
+export { auth, db, storage, saveFileInStorage };

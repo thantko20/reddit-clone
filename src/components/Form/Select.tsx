@@ -1,31 +1,45 @@
 import { Listbox } from '@headlessui/react';
 import { useFormikContext } from 'formik';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export type SelectOptionType = { label: string; value: string };
 
 export interface SelectProps {
   name: string;
   options: Array<SelectOptionType>;
+  defaultOption?: SelectOptionType | null;
   label?: string;
 }
 
-export const Select = ({ name, options, label = '' }: SelectProps) => {
+export const Select = ({
+  name,
+  options,
+  label = '',
+  defaultOption = null,
+}: SelectProps) => {
   const { setFieldValue } = useFormikContext();
   const [option, setOption] = useState<SelectOptionType>({
     label: label,
     value: '',
   });
 
+  const handleOptionsOnChange = useCallback(
+    (option: SelectOptionType) => {
+      setFieldValue(name, option);
+      setOption(option);
+    },
+    [name, setFieldValue],
+  );
+
+  useEffect(() => {
+    if (defaultOption) {
+      handleOptionsOnChange(defaultOption);
+    }
+  }, [defaultOption, handleOptionsOnChange]);
+
   return (
     <div>
-      <Listbox
-        value={option}
-        onChange={(selectedOption) => {
-          setFieldValue(name, selectedOption);
-          setOption(selectedOption);
-        }}
-      >
+      <Listbox value={option} onChange={handleOptionsOnChange}>
         <div className='relative w-full max-w-xs font-semibold'>
           <Listbox.Button className='w-full bg-zinc-700 px-4 py-2 rounded'>
             {option.label}

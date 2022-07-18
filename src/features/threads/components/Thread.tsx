@@ -4,7 +4,6 @@ import { calcTimePast } from 'utils';
 import { ThreadType } from '../types';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'components';
-import { AddComment } from 'features/comments/components';
 import { CommentsSection } from 'features/comments/components/CommentsSection';
 // shows:
 // Title, description, optional image and comments
@@ -29,7 +28,7 @@ export const Thread = ({
   return (
     <div className='py-4 w-full max-w-3xl mx-auto'>
       <div className='relative'>
-        <div className='sticky top-[4rem] flex justify-between items-center px-1 py-3 bg-canvas/80'>
+        <div className='sticky top-[4rem] z-20 flex justify-between items-center px-1 py-3 bg-canvas/80'>
           <VotesUI
             downvotes={downvotes}
             upvotes={upvotes}

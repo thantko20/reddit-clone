@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
 import { useCallback, useState } from 'react';
 import { CommentType } from '../types';

@@ -1,8 +1,8 @@
-import { Button, Link } from 'components';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Link } from 'components';
 import { useAuth } from 'providers';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useGetSubreddits } from '../api/getSubreddits';
-import { useJoinSubreddit, hasJoinedSubreddit } from '../api/joinSubreddit';
 import { JoinSubreddit } from '../components/JoinSubreddit';
 import { Subreddit } from '../types';
 
@@ -31,14 +31,21 @@ export const Subreddits = () => {
   const [subreddits, setSubreddits] = useState<SubredditsType>([]);
   const { getSubreddits } = useGetSubreddits();
 
-  useEffect(() => {
-    getSubreddits().then((data) => setSubreddits(data as SubredditsType));
+  const fetchSubreddits = useCallback(async () => {
+    const data = await getSubreddits();
+    setSubreddits(data as SubredditsType);
   }, []);
+
+  useEffect(() => {
+    fetchSubreddits();
+  }, [fetchSubreddits]);
 
   return (
     <div className='pt-10 w-full max-w-3xl mx-auto'>
       <ul className='w-full flex flex-col gap-6'>
-        {!subreddits && <div>No Subreddits Here</div>}
+        {subreddits.length === 0 && (
+          <p className='text-center'>No Subreddits Created</p>
+        )}
         {subreddits.map((subreddit) => (
           <SubredditListItem
             key={subreddit.id}

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Spinner } from 'components';
+import { Avatar, Spinner } from 'components';
 import { useGetSubThreads } from 'features/threads/api';
-import { ThreadsContainer } from 'features/threads/components';
+import { CreateThread, ThreadsContainer } from 'features/threads/components';
 import { ThreadType } from 'features/threads/types';
 import { useAuth } from 'providers';
 import { useEffect, useState } from 'react';
@@ -50,6 +50,16 @@ export const SubredditPage = () => {
               subreddit={subredditInfo}
               userId={user?.id as string}
             />
+          </div>
+
+          <div className='w-full max-w-3xl mx-auto flex flex-col gap-y-6 sm:flex-row sm:justify-between sm:items-center bg-body rounded-lg p-4 mt-4'>
+            <div className='flex items-center gap-2 self-center'>
+              <Avatar url={user?.avatarURL as string} />
+              <div className='font-semibold text-xs'>u/{user?.username}</div>
+            </div>
+            <div className='flex flex-col gap-2 sm:flex-row'>
+              <CreateThread subredditId={subredditInfo.id} />
+            </div>
           </div>
           {/* Container to render threads */}
           {gettingThreads ? (
