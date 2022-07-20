@@ -49,7 +49,6 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         }}
         onSubmit={async (values, { resetForm }) => {
           try {
-            console.log(values);
             await registerWithEmailAndPassword.register(values);
             resetForm();
             onSuccess();
