@@ -70,7 +70,7 @@ export const useRegisterWithEmailAndPassword = () => {
       const id = result.user.uid;
 
       const avatarURL = avatar
-        ? ((await saveFileInStorage(avatar, 'images')) as string)
+        ? ((await saveFileInStorage(avatar, 'avatars')) as string)
         : 'https://firebasestorage.googleapis.com/v0/b/reddit-clone-marco1.appspot.com/o/default_avatar.png?alt=media&token=15dcbbf2-3e3d-4d26-a064-ce37d9425fe3';
 
       saveUser({ name, username, avatarURL, email, id });
