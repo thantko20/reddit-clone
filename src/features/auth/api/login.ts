@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from 'lib/firebase/firebase';
 import toast from 'react-hot-toast';
@@ -8,6 +9,26 @@ export type LoginCredentials = {
   password: string;
 };
 
+const loginErrorMessage = (err: unknown): string => {
+  if (err instanceof FirebaseError) {
+    switch (err.code) {
+      case 'auth/invalid-credential':
+      case 'auth/wrong-password':
+      case 'auth/user-not-found':
+      case 'auth/invalid-email':
+        return 'Incorrect email or password';
+      case 'auth/too-many-requests':
+        return 'Too many attempts. Try again later.';
+      case 'auth/user-disabled':
+        return 'This account has been disabled.';
+      default:
+        return 'There was a problem logging in';
+    }
+  }
+
+  return 'There was a problem logging in';
+};
+
 export const useLoginWithEmailAndPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,9 +37,11 @@ export const useLoginWithEmailAndPassword = () => {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
       setIsLoading(false);
-    } catch (err) {
-      toast.error('There was a problem logging in');
+    } catch (err: unknown) {
+      const message = loginErrorMessage(err);
+      toast.error(message);
       setIsLoading(false);
+      throw new Error(message);
     }
   };
 

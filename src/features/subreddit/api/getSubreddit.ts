@@ -6,14 +6,16 @@ import { Subreddit } from '../types';
 export const useGetSubreddit = () => {
   const [loading, setLoading] = useState(true);
 
-  const getSubreddit = async (id: string) => {
-    const subredditRef = doc(db, 'subreddits', id);
+  const getSubreddit = async (id: string): Promise<Subreddit | null> => {
+    try {
+      const subredditDoc = await getDoc(doc(db, 'subreddits', id));
 
-    const subredditDoc = await getDoc(subredditRef);
+      if (!subredditDoc.exists()) return null;
 
-    setLoading(false);
-
-    return subredditDoc.data() as Subreddit;
+      return subredditDoc.data() as Subreddit;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return { loading, getSubreddit };

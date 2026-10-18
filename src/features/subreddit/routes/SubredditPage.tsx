@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Avatar, Spinner } from 'components';
+import { Avatar, Link, Spinner } from 'components';
 import { useGetSubThreads } from 'features/threads/api';
 import { CreateThread, ThreadsContainer } from 'features/threads/components';
 import { ThreadType } from 'features/threads/types';
@@ -20,9 +20,9 @@ export const SubredditPage = () => {
   const [threads, setThreads] = useState<ThreadType[]>([]);
 
   useEffect(() => {
-    getSubreddit(params.subredditId as string).then((result) =>
-      setSubredditInfo(result),
-    );
+    getSubreddit(params.subredditId as string).then((result) => {
+      if (result) setSubredditInfo(result);
+    });
   }, []);
 
   useEffect(() => {
@@ -42,7 +42,16 @@ export const SubredditPage = () => {
           <Spinner size='lg' />
         </div>
       )}
-      {!loading && subredditInfo !== null && (
+      {!loading && !subredditInfo && (
+        <div className='max-w-3xl mx-auto px-4 py-16 text-center'>
+          <h1 className='text-2xl font-semibold'>Community not found</h1>
+          <p className='mt-2 text-zinc-400'>This community does not exist.</p>
+          <Link to='/app/subreddits' colour='red' className='inline-block mt-6'>
+            Browse communities
+          </Link>
+        </div>
+      )}
+      {!loading && subredditInfo && (
         <div>
           <div className='px-6 py-10 text-2xl  sm:text-3xl bg-body rounded-b-lg font-semibold flex justify-between'>
             <h2>r/{subredditInfo.name}</h2>

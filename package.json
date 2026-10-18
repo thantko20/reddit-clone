@@ -29,6 +29,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:rules": "firebase emulators:exec --only firestore,storage --project demo-reddit-clone \"node rules-tests/rules.test.cjs\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,8 +51,10 @@
     ]
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^2.0.7",
     "@types/uniqid": "^5.3.2",
     "autoprefixer": "^10.4.7",
+    "firebase-tools": "^13.35.1",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4",
     "typescript": "^4.7.4"

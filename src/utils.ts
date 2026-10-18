@@ -1,5 +1,3 @@
-import { array, number } from 'yup';
-
 export const checkFileSize = (files?: [File]): boolean => {
   let isValid = true;
 
@@ -15,15 +13,16 @@ export const checkFileSize = (files?: [File]): boolean => {
   return isValid;
 };
 
-export const chunksArray = <T>(array: T[], size: number): Array<T[]> => {
-  const finalArray: any = [];
+export const chunksArray = <T>(items: T[], size: number): T[][] => {
+  const chunks: T[][] = [];
 
-  for (let i = 0; i < size; i += size) {
-    const chunk = array.slice(i, i + size);
-    finalArray.push(chunk);
+  if (size <= 0) return chunks;
+
+  for (let i = 0; i < items.length; i += size) {
+    chunks.push(items.slice(i, i + size));
   }
 
-  return finalArray;
+  return chunks;
 };
 
 export const calcTimePast = (unixTime: number): string => {

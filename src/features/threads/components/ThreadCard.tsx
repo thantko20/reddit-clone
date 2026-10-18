@@ -34,16 +34,28 @@ export const ThreadCard = ({
     commentCounts,
   });
 
+  const [removed, setRemoved] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, 'threads', id), (doc) => {
-      const data = doc.data() as ThreadType;
-      setSyncData(data);
+    const unsubscribe = onSnapshot(doc(db, 'threads', id), (snapshot) => {
+      if (!snapshot.exists()) {
+        setRemoved(true);
+        return;
+      }
+      setSyncData(snapshot.data() as ThreadType);
     });
 
     return () => unsubscribe();
   }, [id]);
+
+  if (removed) {
+    return (
+      <div className='bg-body rounded-lg border border-gray-600 px-4 py-6 text-zinc-400'>
+        This thread is no longer available.
+      </div>
+    );
+  }
 
   return (
     <div

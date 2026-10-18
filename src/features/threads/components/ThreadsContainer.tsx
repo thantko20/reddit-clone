@@ -13,7 +13,7 @@ export const FilterThreads = ({
   setFilterThreads,
   threads,
 }: FilterThreadsProps) => {
-  const [filterId, setFilterId] = useState(0);
+  const [filterId] = useState(0);
 
   const filterLatest = () => {
     const output = [...threads];
