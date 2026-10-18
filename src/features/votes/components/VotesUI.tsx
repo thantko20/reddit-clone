@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import clsx from 'clsx';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
 import { useVote } from '../api';

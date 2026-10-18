@@ -22,7 +22,7 @@ export const useGetUserSubreddits = () => {
 
       const querySnapshot = await getDocs(q);
 
-      let data: Subreddit[] = [];
+      const data: Subreddit[] = [];
 
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => data.push(doc.data() as Subreddit));

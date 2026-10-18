@@ -5,7 +5,7 @@ import { useState } from 'react';
 import uniqid from 'uniqid';
 import { ThreadType } from '../types';
 
-interface CreateThreadFormValues {
+export interface CreateThreadFormValues {
   title: string;
   description?: string;
   image?: File | null;

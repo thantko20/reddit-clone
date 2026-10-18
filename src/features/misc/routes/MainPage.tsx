@@ -24,7 +24,8 @@ export const MainPage = () => {
 
   useEffect(() => {
     const fetchSubreddits = async () => {
-      const data: Subreddit[] = await getSubreddits();
+      const data = await getSubreddits();
+      if (!data) return;
       setSubreddits(randomItemsFromArray(data, 5));
     };
 

@@ -26,7 +26,7 @@ export const SubredditPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!!subredditInfo?.id) {
+    if (subredditInfo?.id) {
       // Fetch the threads
 
       getSubThreads(subredditInfo.id).then((data) =>

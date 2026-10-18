@@ -1,6 +1,6 @@
 # Mini Reddit Clone
 
-A mini reddit clone clone created with CRA and deployed by vercel.
+A mini reddit clone created with Vite and deployed on Vercel.
 
 For live preview, visit [here](https://reddit-clone-marco.vercel.app/)
 

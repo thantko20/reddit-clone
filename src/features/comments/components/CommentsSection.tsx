@@ -18,7 +18,6 @@ const Comment = ({
   createdAt,
   description,
   id,
-  voteCounts,
 }: CommentProps) => {
   return (
     <div className='px-4 flex flex-col gap-3'>

@@ -15,7 +15,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import * as yup from 'yup';
-import { useCreateThread } from '../api';
+import { CreateThreadFormValues, useCreateThread } from '../api';
 
 const validationSchema = yup.object().shape({
   title: yup.string().required(),
@@ -74,11 +74,9 @@ export const CreateThread = ({ subredditId = '' }: CreateThreadProps) => {
       submitState={creating}
       onSubmit={async (values, close) => {
         try {
-          await createThread(values);
+          await createThread(values as unknown as CreateThreadFormValues);
           toast.success(
-            `Thread successfully posted in r/${
-              (values.subredditInfo as SelectOptionType).label
-            }`,
+            `Thread successfully posted in r/${values.subredditInfo.label}`,
           );
           close();
           navigate(0);
@@ -112,14 +110,14 @@ export const CreateThread = ({ subredditId = '' }: CreateThreadProps) => {
           options={subredditOptions}
           label='Select subreddit to post'
           defaultOption={
-            !!subredditId
+            subredditId
               ? subredditOptions.find((option) => option.value === subredditId)
               : null
           }
         />
       ) : (
         <div>
-          You haven't joined any subreddits. Click{' '}
+          You haven&apos;t joined any subreddits. Click{' '}
           <Link to='/app/subreddits' colour='red'>
             here
           </Link>{' '}
