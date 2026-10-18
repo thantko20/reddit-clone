@@ -1,8 +1,11 @@
+import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import {
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
@@ -23,8 +26,6 @@ interface SaveUserParameters {
 }
 
 const saveUser = async ({ avatarURL = '', ...info }: SaveUserParameters) => {
-  // TODO: SAVE USER INFO IN FIRESTORE
-
   await setDoc(doc(db, 'users', info.id), {
     ...info,
     avatarURL,
@@ -40,6 +41,8 @@ export type RegisterCredentials = {
   avatar: FileType;
 };
 
+const DEFAULT_COMMUNITY_ID = 'iOZUHNglgKnNTkxkp24B';
+
 export const useRegisterWithEmailAndPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -53,12 +56,34 @@ export const useRegisterWithEmailAndPassword = () => {
     try {
       setIsLoading(true);
 
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('username', '==', username));
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        setIsLoading(false);
+      const usernameRef = doc(db, 'usernames', username);
+      const usernameSnap = await getDoc(usernameRef);
+      if (usernameSnap.exists()) {
         throw new Error('Username already exists');
+      }
+
+      // Profiles are private under the new rules, so this list fails closed
+      // once those rules are deployed. Until then it still sees usernames that
+      // have not been copied into /usernames/{username}.
+      try {
+        const existingUsers = await getDocs(
+          query(collection(db, 'users'), where('username', '==', username)),
+        );
+        if (!existingUsers.empty) {
+          throw new Error('Username already exists');
+        }
+      } catch (err: unknown) {
+        if (
+          err instanceof Error &&
+          err.message === 'Username already exists'
+        ) {
+          throw err;
+        }
+        if (
+          !(err instanceof FirebaseError && err.code === 'permission-denied')
+        ) {
+          throw err;
+        }
       }
 
       const result = await createUserWithEmailAndPassword(
@@ -73,12 +98,33 @@ export const useRegisterWithEmailAndPassword = () => {
         ? ((await saveFileInStorage(avatar, 'avatars')) as string)
         : 'https://firebasestorage.googleapis.com/v0/b/reddit-clone-marco1.appspot.com/o/default_avatar.png?alt=media&token=15dcbbf2-3e3d-4d26-a064-ce37d9425fe3';
 
-      saveUser({ name, username, avatarURL, email, id });
+      try {
+        await setDoc(usernameRef, { uid: id });
+      } catch (err: unknown) {
+        if (
+          err instanceof FirebaseError &&
+          err.code === 'permission-denied'
+        ) {
+          throw new Error('Username already exists');
+        }
+        throw err;
+      }
 
-      // Automatically joins newly registered user to MarcoSubreddit subreddit
-      await updateDoc(doc(db, 'subreddits', 'iOZUHNglgKnNTkxkp24B'), {
-        members: arrayUnion(id),
-      });
+      try {
+        await saveUser({ name, username, avatarURL, email, id });
+      } catch (err: unknown) {
+        await deleteDoc(usernameRef).catch(() => undefined);
+        throw err;
+      }
+
+      // Best-effort. A missing default community must not fail registration.
+      try {
+        await updateDoc(doc(db, 'subreddits', DEFAULT_COMMUNITY_ID), {
+          members: arrayUnion(id),
+        });
+      } catch {
+        // The profile is already saved.
+      }
 
       setIsLoading(false);
     } catch (err: unknown) {

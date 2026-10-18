@@ -32,9 +32,13 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           password: '',
         }}
         onSubmit={async (value, { resetForm }) => {
-          await loginWithEmailAndPassword.login(value);
-          resetForm();
-          onSuccess();
+          try {
+            await loginWithEmailAndPassword.login(value);
+            resetForm();
+            onSuccess();
+          } catch {
+            // The hook already toasted the Firebase error. Stay on this form.
+          }
         }}
         validationSchema={validationSchema}
       >

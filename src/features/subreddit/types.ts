@@ -3,5 +3,6 @@ export interface Subreddit {
   members: string[];
   createdAt: number;
   id: string;
-  threads: string[];
+  threads?: string[];
+  createdBy?: string;
 }

@@ -1,0 +1,40 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAllowedImage() {
+      return request.resource.contentType == 'image/jpeg'
+        || request.resource.contentType == 'image/png'
+        || request.resource.contentType == 'image/jpg';
+    }
+
+    // img tags load files by URL and do not send a Firebase auth header.
+    // Listing the bucket stays closed. Writes are create-only, signed in,
+    // and limited to the image types and sizes the client already checks.
+    match /avatars/{fileName} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn()
+        && isAllowedImage()
+        && request.resource.size <= 1 * 1024 * 1024;
+      allow update, delete: if false;
+    }
+
+    match /thread_images/{fileName} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn()
+        && isAllowedImage()
+        && request.resource.size <= 2 * 1024 * 1024;
+      allow update, delete: if false;
+    }
+
+    match /default_avatar.png {
+      allow get: if true;
+      allow list, create, update, delete: if false;
+    }
+  }
+}

@@ -10,7 +10,6 @@ import { db } from 'lib/firebase/firebase';
 import { useAuth } from 'providers';
 import { useState } from 'react';
 import uniqid from 'uniqid';
-import { Subreddit } from '../types';
 
 export const useCreateSubreddit = () => {
   const [loading, setLoading] = useState(false);
@@ -41,7 +40,8 @@ export const useCreateSubreddit = () => {
       members: [user.id],
       createdAt: Date.now(),
       id,
-    } as Subreddit);
+      createdBy: user.id,
+    });
     setLoading(false);
   };
 

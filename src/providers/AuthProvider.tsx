@@ -27,6 +27,32 @@ export interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+const PROFILE_RETRY_MS = [0, 300, 700, 1500];
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Registration writes the profile just after Auth signs the user in, so the
+// first read often misses. Keep checking until it shows up or the retries end.
+const loadProfile = async (
+  uid: string,
+  isStale: () => boolean,
+): Promise<UserType> => {
+  for (const delay of PROFILE_RETRY_MS) {
+    if (isStale() || auth.currentUser?.uid !== uid) return null;
+    if (delay > 0) await wait(delay);
+    if (isStale() || auth.currentUser?.uid !== uid) return null;
+
+    try {
+      const profile = await getUser();
+      if (profile) return profile;
+    } catch {
+      // Network or rules errors are retried with the next delay.
+    }
+  }
+
+  return null;
+};
+
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserType>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,19 +62,36 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [checkingStatus, setCheckingStatus] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setIsLoggedIn(true);
-        const res = (await getUser()) as UserType;
-        setUser(res);
-      } else {
+    let cancelled = false;
+    let requestId = 0;
+
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      const current = ++requestId;
+
+      if (!firebaseUser) {
         setIsLoggedIn(false);
         setUser(null);
+        setCheckingStatus(false);
+        return;
       }
-      setCheckingStatus(false);
+
+      setIsLoggedIn(true);
+      setCheckingStatus(true);
+
+      void loadProfile(
+        firebaseUser.uid,
+        () => cancelled || current !== requestId,
+      ).then((profile) => {
+        if (cancelled || current !== requestId) return;
+        setUser(profile);
+        setCheckingStatus(false);
+      });
     });
 
-    return () => unsubscribe();
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
   }, []);
 
   const value = { auth, user, isLoggedIn, checkingStatus };
