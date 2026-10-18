@@ -1,6 +1,7 @@
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'lib/firebase/firebase';
 import { useState } from 'react';
+import { Subreddit } from '../types';
 
 export const useGetSubreddits = () => {
   const [loading, setLoading] = useState(false);
@@ -15,10 +16,10 @@ export const useGetSubreddits = () => {
         return [];
       }
 
-      const data: any = [];
+      const data: Subreddit[] = [];
 
       querySnapshot.forEach((doc) => {
-        data.push(doc.data());
+        data.push(doc.data() as Subreddit);
       });
 
       return data;

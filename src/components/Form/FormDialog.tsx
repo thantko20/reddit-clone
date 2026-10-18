@@ -1,23 +1,23 @@
 import { Transition, Dialog } from '@headlessui/react';
 import { Button } from 'components/Elements';
-import { Formik } from 'formik';
+import { Formik, FormikConfig, FormikValues } from 'formik';
 import { useDisclosure } from 'hooks/useDisclosure';
 import { cloneElement, Fragment, ReactElement, ReactNode, useRef } from 'react';
 import { Form } from './Form';
 
-export interface FormDialogProps {
+export interface FormDialogProps<Values extends FormikValues> {
   triggerButton: ReactElement;
   cancelButtonText?: string;
   children: ReactNode;
   title: string;
   submitButtonText?: string;
   submitState?: boolean;
-  initialValues: any;
-  validationSchema: any;
-  onSubmit: (values: any, close: () => void) => void;
+  initialValues: Values;
+  validationSchema: FormikConfig<Values>['validationSchema'];
+  onSubmit: (values: Values, close: () => void) => void;
 }
 
-export const FormDialog = ({
+export function FormDialog<Values extends FormikValues>({
   triggerButton,
   cancelButtonText = 'Cancel',
   submitButtonText = 'Submit',
@@ -27,7 +27,7 @@ export const FormDialog = ({
   initialValues,
   validationSchema,
   onSubmit,
-}: FormDialogProps) => {
+}: FormDialogProps<Values>) {
   const { isOpen, open, close } = useDisclosure();
   const cancelRef = useRef(null);
 
@@ -70,7 +70,7 @@ export const FormDialog = ({
                 <div className='mt-6'>
                   <Formik
                     initialValues={initialValues}
-                    onSubmit={(values, actions) => {
+                    onSubmit={(values) => {
                       onSubmit(values, close);
                     }}
                     validationSchema={validationSchema}
@@ -99,4 +99,4 @@ export const FormDialog = ({
       </Transition>
     </>
   );
-};
+}

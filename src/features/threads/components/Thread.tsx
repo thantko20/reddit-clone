@@ -20,7 +20,6 @@ export const Thread = ({
   upvotes,
   downvotes,
   description,
-  voteCounts,
   commentCounts,
 }: ThreadType) => {
   const navigate = useNavigate();

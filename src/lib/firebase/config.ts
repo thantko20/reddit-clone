@@ -1,8 +1,8 @@
 export const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API,
+  apiKey: import.meta.env.VITE_FIREBASE_API,
   authDomain: 'reddit-clone-marco1.firebaseapp.com',
-  projectId: process.env.REACT_APP_PROJECT_ID,
+  projectId: import.meta.env.VITE_PROJECT_ID,
   storageBucket: 'reddit-clone-marco1.appspot.com',
   messagingSenderId: '343200661202',
-  appId: process.env.REACT_APP_APP_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
